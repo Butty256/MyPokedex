@@ -2,12 +2,13 @@ package com.example.mypokedex
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
+import android.os.Handler
+import android.util.Log
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
-
-    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,8 +17,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.listPokeInfo()
-        val pokeApi = PokeApiClient()
-        //val poke = pokeApi.getPokemonShape(1)
+
+        val retrofit = Retrofit.Builder()
+                .baseUrl("https://pokeapi.co/api/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val handler = Handler()
+
+        thread {
+            try {
+                val service: PokeService = retrofit.create(PokeService::class.java)
+                val poke = service.listPokeInfo().execute().body() ?: throw IllegalStateException("NULL!!!!")
+
+                handler.post(Runnable {
+                    println(poke.name)
+                })
+
+
+            } catch (e: Exception) {
+                Log.d("mopi", "debug $e")
+            }
+        }
     }
 }
