@@ -27,13 +27,10 @@ class MainActivity : AppCompatActivity() {
         thread {
             try {
                 val service: PokeService = retrofit.create(PokeService::class.java)
-                val poke = service.listPokeInfo().execute().body() ?: throw IllegalStateException("NULL!!!!")
-
+                val poke = service.listPokeInfo(25).execute().body() ?: throw IllegalStateException("NULL!!!!")
                 handler.post(Runnable {
-                    println(poke.name)
+                    println(poke.sprites.back_default)
                 })
-
-
             } catch (e: Exception) {
                 Log.d("mopi", "debug $e")
             }
