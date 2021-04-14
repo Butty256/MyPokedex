@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.list_item.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.concurrent.thread
@@ -25,36 +26,31 @@ class ListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PokeAdapter(createDataArray())
+        val adapter = PokeAdapter(getData())
 
         pokeRecyclerView.setHasFixedSize(true)
         pokeRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         pokeRecyclerView.adapter = adapter
     }
 
-    private fun createDataArray(): Array<PokeImage> {
-        val dataArray: Array<PokeImage> = Array(200) {PokeImage()}
+    private fun getData(): DexInfo {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val service: PokeService = retrofit.create(PokeService::class.java)
 
-        for (i in 0..151) {
-            thread {
-                try {
-                    val poke = service.listPokeInfo(i).execute().body() ?: throw IllegalStateException("NULL!!!!")
-                    val data= PokeImage().also {
-                        it.name = poke.name
-                        it.id = poke.id
-                        it.url = poke.sprites.front_default
-                    }
-                    dataArray[i] = data
-                } catch (e: Exception) {
-                    Log.d("api", "debug $e")
-                }
+        var data: DexInfo = DexInfo()
+        thread {
+            try {
+                val service: PokeService = retrofit.create(PokeService::class.java)
+                data = service.listPokeInfo("kanto").execute().body() ?: throw IllegalStateException("NULL")
+            } catch (e: Exception) {
+                Log.d("api", "debug $e")
             }
         }
-        return dataArray
+        // 一時的に止まる
+        // 本当はスレッドが終わるまで待ちたい
+        Thread.sleep(1000)
+        return data
     }
 }
