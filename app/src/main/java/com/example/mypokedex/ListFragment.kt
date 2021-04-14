@@ -1,14 +1,17 @@
 package com.example.mypokedex
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.concurrent.thread
 
 class ListFragment: Fragment() {
 
@@ -22,23 +25,36 @@ class ListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PokeAdapter(createDataList())
+        val adapter = PokeAdapter(createDataArray())
 
         pokeRecyclerView.setHasFixedSize(true)
         pokeRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         pokeRecyclerView.adapter = adapter
     }
 
-    private fun createDataList(): List<PokeImage> {
-        val dataList = mutableListOf<PokeImage>()
-        for (i in 0..49) {
-            val data: PokeImage = PokeImage().also {
-                it.name = "タイトル"
-                it.id = i
-                it.url = "aaaaa"
+    private fun createDataArray(): Array<PokeImage> {
+        val dataArray: Array<PokeImage> = Array(200) {PokeImage()}
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://pokeapi.co/api/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service: PokeService = retrofit.create(PokeService::class.java)
+
+        for (i in 0..151) {
+            thread {
+                try {
+                    val poke = service.listPokeInfo(i).execute().body() ?: throw IllegalStateException("NULL!!!!")
+                    val data= PokeImage().also {
+                        it.name = poke.name
+                        it.id = poke.id
+                        it.url = poke.sprites.front_default
+                    }
+                    dataArray[i] = data
+                } catch (e: Exception) {
+                    Log.d("api", "debug $e")
+                }
             }
-            dataList.add(data)
         }
-        return dataList
+        return dataArray
     }
 }

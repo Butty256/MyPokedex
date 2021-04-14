@@ -4,11 +4,11 @@ data class PokeInfo(
     //val form_name: String,
     //val form_names: List<Name>,
     //val form_order: Int,
-    //val id: Int,
+    val id: Int,
     //val is_battle_only: Boolean,
     //val is_default: Boolean,
     //val is_mega: Boolean,
-    //val name: String,
+    val name: String,
     //val names: List<Name>,
     //val order: Int,
     //val pokemon: Pokemon,
@@ -34,13 +34,13 @@ data class Pokemon(
 
 data class Sprite(
     val back_default: String,
-    val back_female: String,
-    val back_shiny: String,
-    val back_shiny_female: String,
+    //val back_female: String,
+    //val back_shiny: String,
+    //val back_shiny_female: String,
     val front_default: String,
-    val front_female: String,
-    val front_shiny: String,
-    val front_shiny_female: String
+    //val front_female: String,
+    //val front_shiny: String,
+    //val front_shiny_female: String
 )
 
 data class Types(
