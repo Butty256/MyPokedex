@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class PokeAdapter(private val data: DexInfo) : RecyclerView.Adapter<PokeHolder>() {
 
@@ -14,7 +15,10 @@ class PokeAdapter(private val data: DexInfo) : RecyclerView.Adapter<PokeHolder>(
 
     override fun onBindViewHolder(holder: PokeHolder, position: Int) {
         holder.idView.text = data.pokemon_entries[position].entry_number.toString()
-        holder.nameView.text = data.pokemon_entries[position].pokemon_species.name
+        holder.nameView.text = data.pokemon_entries[position].pokemon_species.name.capitalize()
+        Glide.with(holder.iconView)
+            .load("https://avatars.githubusercontent.com/u/39516256?v=4")
+            .into(holder.iconView)
     }
 
     override fun getItemCount(): Int {
