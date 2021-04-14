@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +26,7 @@ class ListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val adapter = PokeAdapter(getData())
 
         pokeRecyclerView.setHasFixedSize(true)
@@ -35,8 +35,7 @@ class ListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object: PokeAdapter.OnItemClickListener {
             override fun onItemClickListener(view: View, position: Int, entry: Int) {
-                println(entry.toString() + " が押された")
-                findNavController().navigate(R.id.action_listFragment_to_detailsFragment)
+                findNavController().navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(entry))
             }
         })
     }
