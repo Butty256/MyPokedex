@@ -57,3 +57,15 @@ data class VersionGroup(
     val name: String,
     val url: String
 )
+
+data class Info(
+    val id: Int,
+    val name: String,
+    val image: String
+)
+
+data class PokeImage(
+    val id: Int,
+    val name: String,
+    val url: String
+)
