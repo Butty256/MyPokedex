@@ -3,9 +3,12 @@ package com.example.mypokedex
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 
 class PokeAdapter(private val data: DexInfo) : RecyclerView.Adapter<PokeHolder>() {
+
+    lateinit var listener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeHolder {
         val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -22,9 +25,21 @@ class PokeAdapter(private val data: DexInfo) : RecyclerView.Adapter<PokeHolder>(
                         holder.idView.text + ".png"
             )
             .into(holder.iconView)
+
+        holder.itemView.setOnClickListener {
+            listener.onItemClickListener(it, position, data.pokemon_entries[position].entry_number)
+        }
     }
 
     override fun getItemCount(): Int {
         return data.pokemon_entries.size
+    }
+
+    interface OnItemClickListener{
+        fun onItemClickListener(view: View, position: Int, entry: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
     }
 }
