@@ -15,13 +15,13 @@ class PokeAdapter(private val data: DexInfo) : RecyclerView.Adapter<PokeHolder>(
     }
 
     override fun onBindViewHolder(holder: PokeHolder, position: Int) {
-        holder.idView.text = data.pokemon_entries[position].entry_number.toString()
+        holder.entryView.text = data.pokemon_entries[position].entry_number.toString()
         holder.nameView.text = data.pokemon_entries[position].pokemon_species.name.capitalize()
         // URL の設定がガサツ
         GlideApp.with(holder.iconView)
             .load(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                        holder.idView.text + ".png"
+                        holder.entryView.text + ".png"
             )
             .into(holder.iconView)
 

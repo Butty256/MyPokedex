@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.concurrent.thread
 
 class ListFragment: Fragment() {
+    private val adapter = PokeAdapter(getData())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,8 +27,6 @@ class ListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val adapter = PokeAdapter(getData())
 
         pokeRecyclerView.setHasFixedSize(true)
         pokeRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
