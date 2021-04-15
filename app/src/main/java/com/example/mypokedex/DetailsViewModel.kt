@@ -30,11 +30,12 @@ class DetailsViewModel: ViewModel() {
                     Log.d("api", "debug $e")
                 }
             }
-            delay(500)
-            //while (data.id == 0) delay(1)
+            // だめだめ，解決できてない
+            //delay(500)
+            while (data.id == 0) {}
             println(data.id)
-            idText.value = data.id.toString()
-            nameText.value = data.name
+            idText.value = "No. " + data.id.toString()
+            nameText.value = data.name.capitalize()
             val flavorSize: Int = data.flavor_text_entries.size
             for (i in 0..flavorSize) {
                 if (data.flavor_text_entries[i].language == Language("en") &&

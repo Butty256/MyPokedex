@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/icon_detail_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,24 +28,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/icon_detail_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:text="@{viewModel.idText}" />
+            app:layout_constraintBottom_toTopOf="@id/name_detail_text"
+            app:text="@{viewModel.idText}"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/name_detail_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/icon_detail_image"
-            app:layout_constraintTop_toBottomOf="@id/id_detail_text"
-            app:text="@{viewModel.nameText}" />
+            app:layout_constraintTop_toTopOf="@id/icon_detail_image"
+            app:layout_constraintBottom_toBottomOf="@id/icon_detail_image"
+            app:text="@{viewModel.nameText}"
+            android:textSize="32sp" />
 
         <TextView
             android:id="@+id/flavor_detail_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/icon_detail_image"
-            app:layout_constraintTop_toBottomOf="@id/name_detail_text"
-            app:text="@{viewModel.flavorText}" />
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon_detail_image"
+            app:text="@{viewModel.flavorText}"
+            android:textSize="18sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

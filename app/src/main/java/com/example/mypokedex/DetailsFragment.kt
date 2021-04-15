@@ -30,11 +30,12 @@ class DetailsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args: DetailsFragmentArgs by navArgs()
-
         val binding: FragmentDetailsBinding = DataBindingUtil.bind(view)?: throw RuntimeException("FragmentDetailsBinding not done.")
         binding.viewModel = detailsViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        val args: DetailsFragmentArgs by navArgs()
+        detailsViewModel.setData(args.entry)
 
         val iconView: ImageView = view.findViewById(R.id.icon_detail_image)
 
@@ -45,34 +46,4 @@ class DetailsFragment: Fragment() {
             )
             .into(iconView)
     }
-
-    override fun onStart() {
-        super.onStart()
-
-        //val data: PokeInfo = getData(args.entry)
-        //println(data.name)
-        //detailsViewModel.setData2(data)
-        detailsViewModel.setData(5)
-    }
-
-    private fun getData(id: Int): PokeInfo {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/api/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        var data: PokeInfo = PokeInfo()
-        thread {
-            try {
-                val service: PokeInfoService = retrofit.create(PokeInfoService::class.java)
-                data = service.pokeInfo(id).execute().body() ?: throw IllegalStateException("NULL")
-            } catch (e: Exception) {
-                Log.d("api", "debug $e")
-            }
-        }
-        // 一時的に止まる
-        // 本当はスレッドが終わるまで待ちたい
-        Thread.sleep(1000)
-        return data
-    }
-
 }
