@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.concurrent.thread
 
 class ListFragment: Fragment() {
+
     private val adapter = PokeAdapter(getData())
 
     override fun onCreateView(
@@ -48,8 +49,8 @@ class ListFragment: Fragment() {
         var data: DexInfo = DexInfo()
         thread {
             try {
-                val service: PokeService = retrofit.create(PokeService::class.java)
-                data = service.listPokeInfo("kanto").execute().body() ?: throw IllegalStateException("NULL")
+                val service: PokeDexService = retrofit.create(PokeDexService::class.java)
+                data = service.listPoke("kanto").execute().body() ?: throw IllegalStateException("NULL")
             } catch (e: Exception) {
                 Log.d("api", "debug $e")
             }

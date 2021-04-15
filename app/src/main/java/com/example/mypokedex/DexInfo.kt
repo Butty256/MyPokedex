@@ -14,3 +14,23 @@ data class PokemonEntry(
 data class PokemonSpecies(
     val name: String = ""
 )
+
+data class PokeInfo(
+    val id: Int = 0,
+    val name: String = "",
+    val flavor_text_entries: List<FlavorTextEntry> = listOf(),
+)
+
+data class FlavorTextEntry(
+    val flavor_text: String = "",
+    val language: Language = Language(),
+    val version: Version = Version()
+)
+
+data class Language(
+    val name: String = ""
+)
+
+data class Version(
+    val name: String = ""
+)

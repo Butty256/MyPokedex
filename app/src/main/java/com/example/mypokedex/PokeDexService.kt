@@ -4,9 +4,9 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface PokeService {
+interface PokeDexService {
     @GET("pokedex/{name}")
-    fun listPokeInfo(
+    fun listPoke(
         @Path("name") name: String
     ): Call<DexInfo>
 }
