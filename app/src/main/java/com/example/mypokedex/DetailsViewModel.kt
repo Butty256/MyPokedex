@@ -9,7 +9,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import kotlin.concurrent.thread
 
 class DetailsViewModel: ViewModel() {
 
@@ -32,30 +31,30 @@ class DetailsViewModel: ViewModel() {
         retrofit.create(PokeService::class.java)
     }
 
+    private val repository = PokeRepository.instance
+
     fun setData(id: Int) {
         viewModelScope.launch {
-            var data: PokeInfo = PokeInfo()
-            thread {
-                try {
-                    data = service.getPokeInfo(id).execute().body() ?: throw IllegalStateException("NULL")
-                } catch (e: Exception) {
-                    Log.d("api", "debug $e")
-                }
+            //var data: PokeInfo = PokeInfo()
+            try {
+                val request = repository.getPokeInfo(id)
+                Log.d("api", "debug OK!!!!!")
+            } catch (e: Exception) {
+                Log.d("api", "debug $e")
             }
             // だめだめ，解決できてない
-            //delay(500)
-            while (data.id == 0) {}
-            println(data.id)
-            idText.value = "No. " + data.id.toString()
-            nameText.value = data.name.capitalize()
-            val flavorSize: Int = data.flavor_text_entries.size
-            for (i in 0..flavorSize) {
-                if (data.flavor_text_entries[i].language == Language("en") &&
-                    data.flavor_text_entries[i].version == Version("red")) {
-                    flavorText.value = data.flavor_text_entries[i].flavor_text
-                    break
-                }
-            }
+            //while (data.id == 0) {}
+            //println(data.id)
+            //idText.value = "No. " + data.id.toString()
+            //nameText.value = data.name.capitalize()
+            //val flavorSize: Int = data.flavor_text_entries.size
+            //for (i in 0..flavorSize) {
+            //    if (data.flavor_text_entries[i].language == Language("en") &&
+            //        data.flavor_text_entries[i].version == Version("red")) {
+            //        flavorText.value = data.flavor_text_entries[i].flavor_text
+            //        break
+            //    }
+            //}
         }
     }
 

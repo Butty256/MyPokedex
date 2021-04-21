@@ -12,7 +12,7 @@ import com.example.mypokedex.databinding.FragmentDetailsBinding
 
 class DetailsFragment: Fragment() {
 
-    val detailsViewModel = DetailsViewModel()
+    private val detailsViewModel = DetailsViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
