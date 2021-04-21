@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.fragment_list.*
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import kotlin.concurrent.thread
 
 class ListFragment: Fragment() {
@@ -41,23 +43,29 @@ class ListFragment: Fragment() {
     }
 
     private fun getData(): DexInfo {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+        val moshiConverterFactory = MoshiConverterFactory.create(moshi)
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(moshiConverterFactory)
             .build()
+
+        val service: PokeService = retrofit.create(PokeService::class.java)
 
         var data: DexInfo = DexInfo()
         thread {
             try {
-                val service: PokeDexService = retrofit.create(PokeDexService::class.java)
-                data = service.listPoke("kanto").execute().body() ?: throw IllegalStateException("NULL")
+                data = service.getPokeDex("kanto").execute().body() ?: throw IllegalStateException("NULL")
             } catch (e: Exception) {
                 Log.d("api", "debug $e")
             }
         }
         // 一時的に止まる
         // 本当はスレッドが終わるまで待ちたい
-        Thread.sleep(1000)
+        Thread.sleep(2000)
         return data
     }
 }
