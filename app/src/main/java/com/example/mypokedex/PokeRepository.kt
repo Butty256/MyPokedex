@@ -2,9 +2,8 @@ package com.example.mypokedex
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Response
+import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class PokeRepository {
@@ -17,12 +16,11 @@ class PokeRepository {
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://pokeapi.co/api/v2/")
         .addConverterFactory(moshiConverterFactory)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 
     private val pokeService: PokeService = retrofit.create(PokeService::class.java)
 
-    suspend fun getPokeInfo(id: Int): Response<PokeInfo> {
+    suspend fun getPokeInfo(id: Int): Call<PokeInfo> {
         return pokeService.getPokeInfo(id)
     }
 

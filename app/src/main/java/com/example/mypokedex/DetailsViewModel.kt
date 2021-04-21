@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -38,6 +40,9 @@ class DetailsViewModel: ViewModel() {
             //var data: PokeInfo = PokeInfo()
             try {
                 val request = repository.getPokeInfo(id)
+                val data = request.execute().body() ?: throw IllegalStateException("NULL")
+                //val data = repository.getPokeInfo(id)
+                idText.value = "No. " + data.id.toString()
                 Log.d("api", "debug OK!!!!!")
             } catch (e: Exception) {
                 Log.d("api", "debug $e")
@@ -56,11 +61,5 @@ class DetailsViewModel: ViewModel() {
             //    }
             //}
         }
-    }
-
-    fun setData2(data: PokeInfo) {
-        idText.value = data.id.toString()
-        nameText.value = data.name.capitalize()
-        flavorText.value = data.flavor_text_entries[0].flavor_text
     }
 }
