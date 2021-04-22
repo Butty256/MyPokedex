@@ -20,6 +20,10 @@ class PokeRepository {
 
     private val pokeService: PokeService = retrofit.create(PokeService::class.java)
 
+    suspend fun getPokeDex(name: String): PokeDex {
+        return pokeService.getPokeDex(name).execute().body() ?: throw IllegalStateException("NULL")
+    }
+
     suspend fun getPokeInfo(id: Int): PokeInfo {
         return pokeService.getPokeInfo(id).body() ?: throw IllegalStateException("NULL")
     }

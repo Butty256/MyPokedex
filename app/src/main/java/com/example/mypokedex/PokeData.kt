@@ -1,6 +1,6 @@
 package com.example.mypokedex
 
-data class DexInfo(
+data class PokeDex(
     val id: Int = 0,
     val name: String = "",
     val pokemon_entries: List<PokemonEntry> = listOf()

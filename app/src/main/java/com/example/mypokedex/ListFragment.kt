@@ -42,7 +42,7 @@ class ListFragment: Fragment() {
         })
     }
 
-    private fun getData(): DexInfo {
+    private fun getData(): PokeDex {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
@@ -55,7 +55,7 @@ class ListFragment: Fragment() {
 
         val service: PokeService = retrofit.create(PokeService::class.java)
 
-        var data: DexInfo = DexInfo()
+        var data: PokeDex = PokeDex()
         thread {
             try {
                 data = service.getPokeDex("kanto").execute().body() ?: throw IllegalStateException("NULL")

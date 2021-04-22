@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class PokeAdapter(private val data: DexInfo) : RecyclerView.Adapter<PokeHolder>() {
+class PokeAdapter(private val data: PokeDex) : RecyclerView.Adapter<PokeHolder>() {
 
     lateinit var listener: OnItemClickListener
 
