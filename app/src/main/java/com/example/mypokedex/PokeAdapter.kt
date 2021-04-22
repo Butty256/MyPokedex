@@ -10,7 +10,7 @@ class PokeAdapter(private val data: PokeDex) : RecyclerView.Adapter<PokeHolder>(
     lateinit var listener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeHolder {
-        val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false)
         return PokeHolder(rowView)
     }
 

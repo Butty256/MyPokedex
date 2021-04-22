@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import kotlin.concurrent.thread
 
-class ListFragment: Fragment() {
+class HomeFragment: Fragment() {
 
     private val adapter = PokeAdapter(getData())
 
@@ -25,7 +25,7 @@ class ListFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ class ListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object: PokeAdapter.OnItemClickListener {
             override fun onItemClickListener(view: View, position: Int, entry: Int) {
-                findNavController().navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(entry))
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(entry))
             }
         })
     }
