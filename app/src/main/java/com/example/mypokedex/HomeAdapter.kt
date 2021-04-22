@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class HomeAdapter(private val data: PokeDex) : RecyclerView.Adapter<HomeHolder>() {
+class HomeAdapter(private val data: PokeDex): RecyclerView.Adapter<HomeHolder>() {
 
     lateinit var listener: OnItemClickListener
 
@@ -17,6 +17,7 @@ class HomeAdapter(private val data: PokeDex) : RecyclerView.Adapter<HomeHolder>(
     override fun onBindViewHolder(holder: HomeHolder, position: Int) {
         holder.entryView.text = data.pokemon_entries[position].entry_number.toString()
         holder.nameView.text = data.pokemon_entries[position].pokemon_species.name.capitalize()
+
         // URL の設定がガサツ
         GlideApp.with(holder.iconView)
             .load(
@@ -34,11 +35,11 @@ class HomeAdapter(private val data: PokeDex) : RecyclerView.Adapter<HomeHolder>(
         return data.pokemon_entries.size
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClickListener(view: View, position: Int, entry: Int)
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 }

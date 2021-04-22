@@ -8,20 +8,23 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class PokeRepository {
 
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
-    private val moshiConverterFactory = MoshiConverterFactory.create(moshi)
+    private val pokeService: PokeService by lazy {
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://pokeapi.co/api/v2/")
-        .addConverterFactory(moshiConverterFactory)
-        .build()
+        val moshi = Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+        val moshiConverterFactory = MoshiConverterFactory.create(moshi)
 
-    private val pokeService: PokeService = retrofit.create(PokeService::class.java)
+        val retrofit = Retrofit.Builder()
+                .baseUrl("https://pokeapi.co/api/v2/")
+                .addConverterFactory(moshiConverterFactory)
+                .build()
+
+        retrofit.create(PokeService::class.java)
+    }
 
     suspend fun getPokeDex(name: String): PokeDex {
-        return pokeService.getPokeDex(name).execute().body() ?: throw IllegalStateException("NULL")
+        return pokeService.getPokeDex(name).body() ?: throw IllegalStateException("NULL")
     }
 
     suspend fun getPokeInfo(id: Int): PokeInfo {

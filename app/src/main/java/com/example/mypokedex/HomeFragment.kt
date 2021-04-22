@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.runBlocking
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import kotlin.concurrent.thread
 
 class HomeFragment: Fragment() {
 
@@ -56,16 +56,13 @@ class HomeFragment: Fragment() {
         val service: PokeService = retrofit.create(PokeService::class.java)
 
         var data: PokeDex = PokeDex()
-        thread {
+        runBlocking {
             try {
-                data = service.getPokeDex("kanto").execute().body() ?: throw IllegalStateException("NULL")
+                data = service.getPokeDex("kanto").body() ?: throw IllegalStateException("NULL")
             } catch (e: Exception) {
                 Log.d("api", "debug $e")
             }
         }
-        // 一時的に止まる
-        // 本当はスレッドが終わるまで待ちたい
-        Thread.sleep(2000)
         return data
     }
 }
