@@ -43,26 +43,19 @@ class HomeFragment: Fragment() {
     }
 
     private fun getData(): PokeDex {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-        val moshiConverterFactory = MoshiConverterFactory.create(moshi)
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/api/v2/")
-            .addConverterFactory(moshiConverterFactory)
-            .build()
+        val repository = PokeRepository.instance
 
-        val service: PokeService = retrofit.create(PokeService::class.java)
+        var data = PokeDex()
 
-        var data: PokeDex = PokeDex()
         runBlocking {
             try {
-                data = service.getPokeDex("kanto").body() ?: throw IllegalStateException("NULL")
+                data = repository.getPokeDex("kanto")
             } catch (e: Exception) {
                 Log.d("api", "debug $e")
             }
         }
+
         return data
     }
 }

@@ -34,6 +34,7 @@ class DetailsFragment: Fragment() {
 
         val iconView: ImageView = view.findViewById(R.id.icon_detail_image)
 
+        // 2 回も画像をダウンロードしたくない．よろしくやってくれてるか知らんけど．
         GlideApp.with(iconView)
             .load(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +

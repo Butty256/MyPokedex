@@ -23,7 +23,7 @@ class DetailsViewModel: ViewModel() {
                 val flavorSize: Int = data.flavor_text_entries.size
                 for (i in 0..flavorSize) {
                     if (data.flavor_text_entries[i].language == Language("en") &&
-                        data.flavor_text_entries[i].version == Version("red")) {
+                            data.flavor_text_entries[i].version == Version("red")) {
                         flavorText.value = data.flavor_text_entries[i].flavor_text
                         break
                     }
