@@ -20,8 +20,8 @@ class PokeRepository {
 
     private val pokeService: PokeService = retrofit.create(PokeService::class.java)
 
-    suspend fun getPokeInfo(id: Int): Call<PokeInfo> {
-        return pokeService.getPokeInfo(id)
+    suspend fun getPokeInfo(id: Int): PokeInfo {
+        return pokeService.getPokeInfo(id).body() ?: throw IllegalStateException("NULL")
     }
 
     companion object Factory {
