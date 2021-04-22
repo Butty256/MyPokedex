@@ -18,7 +18,7 @@ import kotlin.concurrent.thread
 
 class HomeFragment: Fragment() {
 
-    private val adapter = PokeAdapter(getData())
+    private val adapter = HomeAdapter(getData())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,7 @@ class HomeFragment: Fragment() {
         pokeRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         pokeRecyclerView.adapter = adapter
 
-        adapter.setOnItemClickListener(object: PokeAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object: HomeAdapter.OnItemClickListener {
             override fun onItemClickListener(view: View, position: Int, entry: Int) {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(entry))
             }

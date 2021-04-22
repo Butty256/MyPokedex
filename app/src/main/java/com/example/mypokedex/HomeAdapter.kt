@@ -5,16 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class PokeAdapter(private val data: PokeDex) : RecyclerView.Adapter<PokeHolder>() {
+class HomeAdapter(private val data: PokeDex) : RecyclerView.Adapter<HomeHolder>() {
 
     lateinit var listener: OnItemClickListener
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeHolder {
         val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false)
-        return PokeHolder(rowView)
+        return HomeHolder(rowView)
     }
 
-    override fun onBindViewHolder(holder: PokeHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeHolder, position: Int) {
         holder.entryView.text = data.pokemon_entries[position].entry_number.toString()
         holder.nameView.text = data.pokemon_entries[position].pokemon_species.name.capitalize()
         // URL の設定がガサツ
